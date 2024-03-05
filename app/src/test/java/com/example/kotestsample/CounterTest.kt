@@ -1,5 +1,6 @@
 package com.example.kotestsample
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
@@ -23,8 +24,9 @@ class CounterTest : FunSpec(
             context("異常系") {
                 test("-1") {
                     val value = -1
-                    org.junit.jupiter.api.assertThrows<AssertionError> {
+                    shouldThrow<AssertionError> {
                         counter = Counter(Count(value))
+                        Unit
                     }
                 }
             }
@@ -71,7 +73,7 @@ class CounterTest : FunSpec(
                 test("結果が0未満") {
                     counter = initializedCounter(0)
 
-                    org.junit.jupiter.api.assertThrows<AssertionError> {
+                    shouldThrow<AssertionError> {
                         counter.decrement()
                     }
                 }
