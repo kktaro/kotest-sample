@@ -10,22 +10,27 @@ class CounterTest : FunSpec(
         lateinit var counter: Counter
 
         context("constructor") {
+            data class ConstructorPattern(val expect: Int)
+
             context("正常系") {
                 withData(
-                    nameFn = { "初期化値: $it" },
-                    listOf(0, 100, 99999, Int.MAX_VALUE),
-                ) { expect ->
+                    ConstructorPattern(0),
+                    ConstructorPattern(100),
+                    ConstructorPattern(99999),
+                    ConstructorPattern(Int.MAX_VALUE),
+                ) { (expect) ->
                     counter = Counter(Count(expect))
                     counter.count.value shouldBe expect
                 }
             }
             context("異常系") {
                 withData(
-                    nameFn = { "初期化値: $it" },
-                    listOf(-1, -100, Int.MIN_VALUE),
-                ) { value ->
+                    ConstructorPattern(-1),
+                    ConstructorPattern(-100),
+                    ConstructorPattern(Int.MIN_VALUE),
+                ) { (expect) ->
                     shouldThrow<AssertionError> {
-                        counter = Counter(Count(value))
+                        counter = Counter(Count(expect))
                         Unit
                     }
                 }
