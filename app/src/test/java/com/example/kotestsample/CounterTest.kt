@@ -12,6 +12,7 @@ class CounterTest : FunSpec(
         context("constructor") {
             context("正常系") {
                 withData(
+                    nameFn = { "初期値が正の数($it)の場合、正常にインスタンスが作成されること" },
                     listOf(0, 100, 99999, Int.MAX_VALUE),
                 ) { expect ->
                     counter = Counter(Count(expect))
@@ -20,6 +21,7 @@ class CounterTest : FunSpec(
             }
             context("異常系") {
                 withData(
+                    nameFn = { "初期値が負の数($it)の場合、AssertionErrorがスローされること" },
                     listOf(-1, -100, Int.MIN_VALUE),
                 ) { expect ->
                     shouldThrow<AssertionError> {
