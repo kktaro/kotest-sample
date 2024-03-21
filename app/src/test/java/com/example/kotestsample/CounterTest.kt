@@ -2,6 +2,7 @@ package com.example.kotestsample
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
 class CounterTest : FunSpec(
@@ -10,22 +11,19 @@ class CounterTest : FunSpec(
 
         context("constructor") {
             context("正常系") {
-                test("0") {
-                    val expect = 0
-                    counter = Counter(Count(expect))
-                    counter.count.value shouldBe expect
-                }
-                test("99999") {
-                    val expect = 99999
+                withData(
+                    listOf(0, 100, 99999, Int.MAX_VALUE),
+                ) { expect ->
                     counter = Counter(Count(expect))
                     counter.count.value shouldBe expect
                 }
             }
             context("異常系") {
-                test("-1") {
-                    val value = -1
+                withData(
+                    listOf(-1, -100, Int.MIN_VALUE),
+                ) { expect ->
                     shouldThrow<AssertionError> {
-                        counter = Counter(Count(value))
+                        counter = Counter(Count(expect))
                         Unit
                     }
                 }
