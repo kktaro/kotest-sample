@@ -14,10 +14,12 @@ class CounterTest : FunSpec(
 
             context("正常系") {
                 withData(
-                    ConstructorPattern(0),
-                    ConstructorPattern(100),
-                    ConstructorPattern(99999),
-                    ConstructorPattern(Int.MAX_VALUE),
+                    mapOf(
+                        "初期値が0の時" to ConstructorPattern(0),
+                        "初期値が100の時" to ConstructorPattern(100),
+                        "初期値が99999の時" to ConstructorPattern(99999),
+                        "初期値がIntの最大値の時" to ConstructorPattern(Int.MAX_VALUE),
+                    ),
                 ) { (expect) ->
                     counter = Counter(Count(expect))
                     counter.count.value shouldBe expect
@@ -25,9 +27,11 @@ class CounterTest : FunSpec(
             }
             context("異常系") {
                 withData(
-                    ConstructorPattern(-1),
-                    ConstructorPattern(-100),
-                    ConstructorPattern(Int.MIN_VALUE),
+                    mapOf(
+                        "初期値が-1の時" to ConstructorPattern(-1),
+                        "初期値が-100の時" to ConstructorPattern(-100),
+                        "初期値がIntの最低値の時" to ConstructorPattern(Int.MIN_VALUE),
+                    ),
                 ) { (expect) ->
                     shouldThrow<AssertionError> {
                         counter = Counter(Count(expect))
